@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
 import { toast } from 'react-toastify';
 import { clearLocalStorage } from '../../utils/helpers';
-import { FullNameContext } from '../../main';
+import { FullNameContext } from '../../context/fullNameContext.jsx';
 
 const commentSchema = z.object({
   content: z.string().min(5, 'Comment must be at least 5 characters long'),
@@ -159,10 +159,7 @@ export default function Comments({ commentsArray, postId }) {
           </form>
         </>
       ) : (
-        <p>
-          <Link to='/log-in'>Log in</Link> or <Link to='/sign-up'>sign up</Link>{' '}
-          to comment.
-        </p>
+        ''
       )}
 
       {comments?.length === 0 ? (

@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { clearLocalStorage, isTokenExpired } from '../../utils/helpers';
-import { FullNameContext } from '../../main';
+import { FullNameContext } from '../../context/fullNameContext.jsx';
 
 export default function Header({ hideLogInButton }) {
   const { fullName, logOut } = useContext(FullNameContext);
@@ -21,12 +21,16 @@ export default function Header({ hideLogInButton }) {
   const handleLogOut = () => {
     clearLocalStorage();
     logOut();
+    navigate('/log-in');
   };
 
   return (
     <header className='container d-flex align-items-center justify-content-between mt-3'>
       <h1>
-        <Link className='text-decoration-none text-black' to='/'>
+        <Link
+          className='text-decoration-none text-black'
+          to={fullName ? '/' : '/log-in'}
+        >
           Elevate
         </Link>
       </h1>
@@ -49,14 +53,6 @@ export default function Header({ hideLogInButton }) {
                     onClick={() => navigate(`/log-in`)}
                   >
                     Log in
-                  </button>
-                </li>
-                <li>
-                  <button
-                    className='dropdown-item'
-                    onClick={() => navigate(`/sign-up`)}
-                  >
-                    Sign up
                   </button>
                 </li>
               </>

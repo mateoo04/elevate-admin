@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate, Link } from 'react-router-dom';
 import Header from '../header/Header';
 import { toast } from 'react-toastify';
-import { FullNameContext } from '../../main';
+import { FullNameContext } from '../../context/fullNameContext.jsx';
 import { useContext } from 'react';
 
 const logInSchema = z.object({
@@ -28,7 +28,7 @@ export default function LogIn() {
     formState: { errors },
   } = useForm({ resolver: zodResolver(logInSchema) });
 
-  const logInUrl = import.meta.env.VITE_API_BASE_URL + '/auth/log-in';
+  const logInUrl = import.meta.env.VITE_API_BASE_URL + '/auth/admin/log-in';
 
   const handleLogIn = async (data) => {
     try {
@@ -107,9 +107,6 @@ export default function LogIn() {
             className='btn bg-primary text-white'
           />
         </form>
-        <p className='text-center'>
-          Don't have an account yet? <Link to='/sign-up'>Sign up here</Link>
-        </p>
       </main>
     </>
   );
