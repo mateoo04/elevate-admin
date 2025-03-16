@@ -24,8 +24,10 @@ body {
   background-repeat: no-repeat;
 }
 
-.card:hover,
-a:hover {
+button:hover,
+input[type='submit']:hover,
+input[type='checkbox']:hover {
+  opacity: 0.8;
   cursor: pointer;
 }
 

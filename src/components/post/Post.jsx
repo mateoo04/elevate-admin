@@ -64,7 +64,11 @@ export default function Post() {
               height='auto'
             />
           )}
-          <p>{post.content}</p>
+          <p
+            dangerouslySetInnerHTML={{
+              __html: post.content?.replace(/\n/g, '<br/>'),
+            }}
+          />
           <Comments commentsArray={post.comments} postId={id} />
         </main>
       </>

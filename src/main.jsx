@@ -8,6 +8,7 @@ import Post from './components/post/Post';
 import LogIn from './components/log-in/LogIn';
 import { ToastContainer, Slide } from 'react-toastify';
 import { FullNameProvider } from './context/fullNameContext.jsx';
+import PostEditor from './components/postEditor/PostEditor.jsx';
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
   {
     path: '/posts/:id',
     element: <Post />,
+  },
+  {
+    path: '/posts/new',
+    element: <PostEditor />,
   },
   {
     path: '/log-in',
