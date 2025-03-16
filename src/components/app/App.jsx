@@ -6,7 +6,6 @@ import { FullNameContext } from '../../context/fullNameContext';
 import { clearLocalStorage } from '../../utils/helpers';
 import noImageImg from '../../assets/no-image.png';
 import trashSvg from '../../assets/trash.svg';
-import pencilSvg from '../../assets/pencil.svg';
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -97,10 +96,11 @@ function App() {
       <>
         <Header />
         <main className='container mt-4 mb-4 d-flex flex-column align-items-center'>
-          <button className='btn bg-primary text-white ps-4 pe-4 pt-2 pb-2 rounded-5 mb-4'>
-            <Link className='text-white text-decoration-none' to='/posts/new'>
-              New post
-            </Link>
+          <button
+            className='btn bg-primary text-white ps-4 pe-4 pt-2 pb-2 rounded-5 mb-4'
+            onClick={() => navigate('/posts/new')}
+          >
+            New post
           </button>
           {posts.length === 0 ? (
             <p>Loading...</p>
@@ -153,17 +153,12 @@ function App() {
                             {post.isPublished ? 'Published' : 'Unpublished'}
                           </label>
                         </div>
-                        <div>
-                          <button className='btn bg-transparent border-0'>
-                            <img src={pencilSvg} alt='' />
-                          </button>
-                          <button
-                            className='btn bg-transparent border-0'
-                            onClick={() => deletePost(post)}
-                          >
-                            <img src={trashSvg} alt='' />
-                          </button>
-                        </div>
+                        <button
+                          className='btn bg-transparent border-0'
+                          onClick={() => deletePost(post)}
+                        >
+                          <img src={trashSvg} alt='' />
+                        </button>
                       </div>
                     </div>
                   </div>
