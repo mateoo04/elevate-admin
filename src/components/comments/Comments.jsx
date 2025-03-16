@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
 import { toast } from 'react-toastify';
@@ -17,7 +17,7 @@ const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export default function Comments({ commentsArray, postId }) {
   const [comments, setComments] = useState([]);
   const [commentEdited, setCommentEdited] = useState({});
-
+  const commentsHeaderRef = useRef(null);
   const { logOut } = useContext(FullNameContext);
 
   useEffect(() => {
@@ -60,8 +60,6 @@ export default function Comments({ commentsArray, postId }) {
   };
 
   const deleteComment = async (comment) => {
-    if (comment.user.email !== localStorage.getItem('userEmail')) return;
-
     if (confirm('Are you sure you want to delete this comment?')) {
       fetch(`${BASE_URL}/comments/${comment.id}`, {
         method: 'DELETE',
@@ -113,6 +111,7 @@ export default function Comments({ commentsArray, postId }) {
   const handleEdit = (comment) => {
     setCommentEdited(comment);
     setValue('content', comment.content);
+    commentsHeaderRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   const cancelEditing = () => {
@@ -122,7 +121,7 @@ export default function Comments({ commentsArray, postId }) {
 
   return (
     <div className='comments'>
-      <h3>Comments</h3>
+      <h3 ref={commentsHeaderRef}>Comments</h3>
 
       {localStorage.getItem('token') ? (
         <>
@@ -170,38 +169,34 @@ export default function Comments({ commentsArray, postId }) {
             <div key={comment.id}>
               <div className='d-flex justify-content-between align-items-center'>
                 <p className='text-muted mb-0'>
-                  {format(comment.date, 'd.M.yyyy., HH:mm')}
+                  {format(comment.date, 'd MMM yyyy, HH:mm')}
                 </p>
-                {comment.user?.email === localStorage.getItem('userEmail') ? (
-                  <div className='dropdown'>
-                    <button
-                      className='btn btn-secondary bg-transparent border-0 text-black three-dots'
-                      type='button'
-                      data-bs-toggle='dropdown'
-                      aria-expanded='false'
-                    >
-                      &#x22EE;
-                    </button>
-                    <ul className='dropdown-menu'>
-                      <li>
-                        <button
-                          className='dropdown-item'
-                          onClick={() => handleEdit(comment)}
-                        >
-                          Edit
-                        </button>
-                        <button
-                          className='dropdown-item'
-                          onClick={() => deleteComment(comment)}
-                        >
-                          Delete
-                        </button>
-                      </li>
-                    </ul>
-                  </div>
-                ) : (
-                  ''
-                )}
+                <div className='dropdown'>
+                  <button
+                    className='btn btn-secondary bg-transparent border-0 text-black three-dots'
+                    type='button'
+                    data-bs-toggle='dropdown'
+                    aria-expanded='false'
+                  >
+                    &#x22EE;
+                  </button>
+                  <ul className='dropdown-menu'>
+                    <li>
+                      <button
+                        className='dropdown-item'
+                        onClick={() => handleEdit(comment)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className='dropdown-item'
+                        onClick={() => deleteComment(comment)}
+                      >
+                        Delete
+                      </button>
+                    </li>
+                  </ul>
+                </div>
               </div>
               <h4>{comment.user?.firstName + ' ' + comment.user?.lastName}</h4>
               <p>{comment.content}</p>

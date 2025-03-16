@@ -47,7 +47,7 @@ export default function Post() {
         <Header />
         <main className='container mt-4'>
           <div className='d-flex justify-content-between'>
-            <p>{post.date ? format(post.date, 'd.M.yyyy., HH:mm') : ''}</p>
+            <p>{post.date ? format(post.date, 'd MMM yyyy, HH:mm') : ''}</p>
             {post.author ? (
               <p>By {post.author.firstName + ' ' + post.author.lastName}</p>
             ) : (
@@ -64,11 +64,15 @@ export default function Post() {
               height='auto'
             />
           )}
-          <p
-            dangerouslySetInnerHTML={{
-              __html: post.content?.replace(/\n/g, '<br/>'),
-            }}
-          />
+          <p>
+            {post.content?.split('\\n').map((line, index) => (
+              <span key={index}>
+                {line}
+                <br />
+              </span>
+            ))}
+          </p>
+
           <Comments commentsArray={post.comments} postId={id} />
         </main>
       </>
